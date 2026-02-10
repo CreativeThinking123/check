@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Puzzle ❤️</title>
+<style>
+body{
+    background:#111;
+    color:white;
+    font-family:sans-serif;
+    text-align:center;
+}
+
+#board{
+    width:300px;
+    height:300px;
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:2px;
+    border:3px solid #ff2d55;
+}
+
+.tile{
+    width:100%;
+    height:100%;
+    background-size:300px 300px;
+    cursor:grab;
+    border:1px solid #222;
+}
+
+#msg{
+    font-size:20px;
+    color:#ff2d55;
+}
+</style>
+</head>
+<body>
+
+<h2>❤️ Solve the Love Puzzle ❤️</h2>
+
+<div id="board"></div>
+<p id="msg"></p>
+
+<script>
+const board = document.getElementById("board");
+const msg = document.getElementById("msg");
+
+const img = "https://picsum.photos/300";   // 👉 put your image URL here
+let tiles = [];
+
+// create tiles
+for(let i=0;i<9;i++){
+    const t = document.createElement("div");
+    t.className = "tile";
+    t.draggable = true;
+    t.dataset.index = i;
+    t.style.backgroundImage = `url(${img})`;
+    t.style.backgroundPosition = `${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
+    tiles.push(t);
+}
+
+// shuffle
+tiles.sort(()=>Math.random()-0.5);
+
+// add to board
+tiles.forEach(t=>board.appendChild(t));
+
+// drag logic
+let dragItem=null;
+
+board.addEventListener("dragstart",e=>{
+    dragItem=e.target;
+});
+
+board.addEventListener("dragover",e=>{
+    e.preventDefault();
+});
+
+board.addEventListener("drop",e=>{
+    if(e.target.className==="tile"){
+        let from = [...board.children].indexOf(dragItem);
+        let to = [...board.children].indexOf(e.target);
+        board.insertBefore(dragItem, board.children[to]);
+        board.insertBefore(e.target, board.children[from]);
+        checkWin();
+    }
+});
+
+function checkWin(){
+    let correct=true;
+    [...board.children].forEach((t,i)=>{
+        if(t.dataset.index != i) correct=false;
+    });
+    if(correct){
+        msg.innerText="🎉 You solved it! Love unlocked ❤️";
+    }
+}
+</script>
+
+</body>
+</html>
