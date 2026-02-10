@@ -177,6 +177,7 @@ function showSurprise(item) {
     const img = document.getElementById('m-img');
     if(item.img) {
         img.src = item.img;
+        img.onerror = () => { img.style.display = "none"; };
         img.style.display = "block";
     } else {
         img.style.display = "none";
@@ -200,7 +201,7 @@ function closeM() {
 
 
 
-        window.addEventListener('keydown', e => { buffer += e.key.toUpperCase(); if(buffer.includes(secret)) { unlocked = true; initUniverse(); } });
+        window.addEventListener('keydown', e => { buffer += e.key.toUpperCase(); if(buffer.includes(secret)) { isUnlocked = true; initUniverse(); } });
         
         // --- FASTER & BIGGER GALAXY + LOVE EMOJIS ---
         const starCan = document.getElementById('star-canvas'); const starCtx = starCan.getContext('2d');
