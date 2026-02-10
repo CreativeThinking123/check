@@ -47,7 +47,9 @@ body{
 const board = document.getElementById("board");
 const msg = document.getElementById("msg");
 
-const img = "https://picsum.photos/300";   // 👉 put your image URL here
+// ✅ Your GitHub RAW Image
+const img = "https://raw.githubusercontent.com/CreativeThinking123/check/main/6th.jpeg";
+
 let tiles = [];
 
 // create tiles
@@ -94,7 +96,7 @@ function checkWin(){
         if(t.dataset.index != i) correct=false;
     });
     if(correct){
-        msg.innerText="🎉 You solved it! Love unlocked ❤️";
+        msg.innerText="🎉 Puzzle solved ❤️ Love unlocked!";
     }
 }
 </script>
