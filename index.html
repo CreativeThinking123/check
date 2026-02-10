@@ -75,6 +75,8 @@
     <script>
         const secret = "LOVE2026";
         let buffer = ""; let isUnlocked = false;
+        let unlockedDays = {};
+
 
         const bootLines = [
             "> [SYSTEM] Booting Sankar's Valentine Engine...",
@@ -142,14 +144,31 @@
                 node.style.left = (window.innerWidth/2 + rad * Math.cos(angle) - 40) + "px";
                 node.style.top = (window.innerHeight/2.2 + rad * Math.sin(angle) - 40) + "px";
                 node.innerHTML = `<span style="font-size:30px">${item.i}</span><span style="font-size:9px">FEB ${item.d}</span>`;
-                node.onclick = () => {
-                    if (isLocked) {
-                        const randomMsg = waitMessages[Math.floor(Math.random()*waitMessages.length)];
-                        alert(randomMsg + (randomMsg.includes("Feb") ? item.d : ""));
-                    } else {
-                        showSurprise(item);
-                    }
-                };
+               node.onclick = () => {
+
+    // --- SECRET QUESTION FOR FEB 7 ---
+    if(item.d === 7 && !unlockedDays[7]) {
+        const ans = prompt("Did Sankar give any flower? 🌹\nType flower name");
+
+        if(ans && ans.toLowerCase().trim() === "rose") {
+            unlockedDays[7] = true;
+            alert("Correct ❤️ Rose Day Unlocked!");
+            showSurprise(item);
+        } else {
+            alert("Wrong answer 😜 Try again!");
+        }
+        return;
+    }
+
+    // Normal lock logic
+    if (isLocked && !unlockedDays[item.d]) {
+        const randomMsg = waitMessages[Math.floor(Math.random()*waitMessages.length)];
+        alert(randomMsg + (randomMsg.includes("Feb") ? item.d : ""));
+    } else {
+        showSurprise(item);
+    }
+};
+
                 u.appendChild(node);
             });
         }
