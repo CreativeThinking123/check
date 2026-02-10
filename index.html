@@ -74,8 +74,22 @@
 
     <script>
         const secret = "LOVE2026";
-        let buffer = ""; let isUnlocked = false;
-        let unlockedDays = {};
+let buffer = ""; 
+let isUnlocked = false;
+let unlockedDays = {};
+
+// ⭐ PASTE HERE
+const secretQuestions = {
+    7:  { q: "Did Sankar give any flower? 🌹", a: "rose" },
+    8:  { q: "Who proposed first? 💍", a: "sankar" },
+    9:  { q: "What was the first chocolate he gave for you? 🍫", a: "dairymilk" },
+    10: { q: "What gift did Sankar give? 🧸", a: "heart" },
+    11: { q: "What did Sankar promise? 🤝", a: "foreverforyou" },
+    12: { q: "In a true hug, two hearts share what? 🫂", a: "one soul" },
+    13: { q: "A kiss is a promise of what? 💋", a: "foreverlove" },
+    14: { q: "Who is your Valentine? 💝", a: "sankar" }
+};
+
 
 
         const bootLines = [
@@ -146,19 +160,22 @@
                 node.innerHTML = `<span style="font-size:30px">${item.i}</span><span style="font-size:9px">FEB ${item.d}</span>`;
                node.onclick = () => {
 
-    // --- SECRET QUESTION FOR FEB 7 ---
-    if(item.d === 7 && !unlockedDays[7]) {
-        const ans = prompt("Did Sankar give any flower? 🌹\nType flower name");
+ // --- SECRET QUESTION SYSTEM FOR ALL DAYS ---
+if(secretQuestions[item.d] && !unlockedDays[item.d]) {
 
-        if(ans && ans.toLowerCase().trim() === "rose") {
-            unlockedDays[7] = true;
-            alert("Correct ❤️ Rose Day Unlocked!");
-            showSurprise(item);
-        } else {
-            alert("Wrong answer 😜 Try again!");
-        }
-        return;
+    const qObj = secretQuestions[item.d];
+    const ans = prompt(qObj.q + "\n(Type answer)");
+
+    if(ans?.toLowerCase().trim() === qObj.a) {
+        unlockedDays[item.d] = true;
+        alert("Correct ❤️ " + item.n + " Unlocked!");
+        showSurprise(item);
+    } else {
+        alert("Wrong answer 😜 Try again!");
     }
+    return;
+}
+
 
     // Normal lock logic
     if (isLocked && !unlockedDays[item.d]) {
